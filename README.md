@@ -29,3 +29,9 @@ Kết quả thử nghiệm hàm cải tiến 1:
 145.12: một trăm bốn mươi lăm phẩy một hai
 +79879.34423: dương bảy mươi chín nghìn tám trăm bảy mươi chín phẩy ba bốn bốn hai ba
 -568.34574568406: âm năm trăm sáu mươi tám phẩy ba bốn năm bảy bốn năm sáu tám bốn không sáu
+
+Kết quả thử nghiệm hàm cải tiến 2:
+
+1723687125.1251E-54: một tỷ bảy trăm hai mươi ba triệu sáu trăm tám mươi bảy nghìn một trăm hai mươi lăm phẩy một hai năm một nhân mười mũ trừ năm mươi tư
+-982352.4347345e34235.12351: âm chín trăm tám mươi hai nghìn ba trăm năm mươi hai phẩy bốn ba bốn bảy ba bốn năm nhân mười mũ ba mươi tư nghìn hai trăm ba mươi lăm phẩy một hai ba năm một
+9839234e-2938792336236.2124: chín triệu tám trăm ba mươi chín nghìn hai trăm ba mươi tư nhân mười mũ trừ hai nghìn chín trăm ba mươi tám tỷ bảy trăm chín mươi hai triệu ba trăm ba mươi sáu nghìn hai trăm ba mươi sáu phẩy hai một hai bốn

@@ -1,7 +1,9 @@
-def _uintStr2Str(input:str, isSingle=False):
-    # định nghĩa các yếu tố cấn thiết
-    _UNITS = [ "mươi", "trăm", "nghìn", "mươi", "trăm", "triệu", "mươi", "trăm", "tỷ" ]
-    _LETTERS = {"0":"không", "1":"một", "2":"hai", "3":"ba", "4":"bốn", "5":"năm", "6":"sáu", "7":"bảy", "8":"tám", "9":"chín"}
+# định nghĩa các yếu tố cấn thiết
+_UNITS = [ "mươi", "trăm", "nghìn", "mươi", "trăm", "triệu", "mươi", "trăm", "tỷ" ]
+_LETTERS = {"0":"không", "1":"một", "2":"hai", "3":"ba", "4":"bốn", "5":"năm", "6":"sáu", "7":"bảy", "8":"tám", "9":"chín"}
+
+
+def uintStr2Str(input:str, isSingle=False):
     # định nghĩa kết quả trả về
     result = ""
     # bắt đầu xử lý từng kí tự trong chuỗi
@@ -91,9 +93,9 @@ def _uintStr2Str(input:str, isSingle=False):
     return result.strip()
 
 
-def _floatStr2Str(input:str, dot=",", isPoweredNumber=False):
+def floatStr2Str(input:str, dot=",", isPoweredNumber=False):
     result = ""
-    if isinstance(input, str) and len(input)>0:
+    if len(input)>0:
         signStr = ""
         if input[0]=='-':
             if isPoweredNumber==True:
@@ -106,7 +108,16 @@ def _floatStr2Str(input:str, dot=",", isPoweredNumber=False):
             input = input[1:]
         parts = input.split(dot)
         if len(parts)>1:
-            result = signStr + _uintStr2Str(parts[0]) + " phẩy " + _uintStr2Str(parts[1], True)
+            result = signStr + uintStr2Str(parts[0]) + " phẩy " + uintStr2Str(parts[1], True)
         else:
-            result = signStr + _uintStr2Str(parts[0])
+            result = signStr + uintStr2Str(parts[0])
     return result
+
+
+def doubleStr2Str(input:str, dot=","):
+    input = input.lower()
+    parts = input.split("e")
+    if (len(parts)>1):
+        return floatStr2Str(parts[0], dot) + " nhân mười mũ " + floatStr2Str(parts[1], dot, True)
+    else:
+        return floatStr2Str(parts[0], dot)
