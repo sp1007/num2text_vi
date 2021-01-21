@@ -35,7 +35,8 @@ def uintStr2Str(input:str, isSingle=False):
                     if idx == inputLength - 1:
                         unit = None
                         if c=='0':
-                            num = None;
+                            if idx>0:
+                                num = None;
                         elif c == '1':
                             if idx>0 and input[idx-1] != "1" and input[idx-1] != '0':
                                 num = "mốt"
@@ -121,3 +122,8 @@ def doubleStr2Str(input:str, dot=","):
         return floatStr2Str(parts[0], dot) + " nhân mười mũ " + floatStr2Str(parts[1], dot, True)
     else:
         return floatStr2Str(parts[0], dot)
+
+
+def numberStr2Str(input:str, dot=","):
+    # TODO: xác nhận / điều chỉnh chuỗi số theo định dạng chuẩn
+    return ""
