@@ -23,3 +23,9 @@ Kết quả thử nghiệm hàm cơ sở:
 109820983511231: một trăm linh chín nghìn tám trăm hai mươi tỷ chín trăm tám mươi ba triệu năm trăm mười một nghìn hai trăm ba mươi mốt
 1155441144414: một nghìn một trăm năm mươi lăm tỷ bốn trăm bốn mươi mốt triệu một trăm bốn mươi bốn nghìn bốn trăm mười bốn
 34586709348576112409000001: ba mươi tư triệu năm trăm tám mươi sáu nghìn bảy trăm linh chín tỷ ba trăm bốn mươi tám triệu năm trăm bảy mươi sáu nghìn một trăm mười hai tỷ bốn trăm linh chín triệu không trăm linh một
+
+Kết quả thử nghiệm hàm cải tiến 1:
+
+145.12: một trăm bốn mươi lăm phẩy một hai
++79879.34423: dương bảy mươi chín nghìn tám trăm bảy mươi chín phẩy ba bốn bốn hai ba
+-568.34574568406: âm năm trăm sáu mươi tám phẩy ba bốn năm bảy bốn năm sáu tám bốn không sáu

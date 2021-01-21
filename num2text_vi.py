@@ -13,7 +13,6 @@ def _uintStr2Str(input:str, isSingle=False):
         # nếu chỉ là lấy các chữ số thông thường
         if isSingle==True:
             for c in input:
-                print(c)
                 if (c in _LETTERS):
                     result += " " + _LETTERS[c]
                 else:
@@ -90,3 +89,24 @@ def _uintStr2Str(input:str, isSingle=False):
                 idx +=1
     # trả về kết quả
     return result.strip()
+
+
+def _floatStr2Str(input:str, dot=",", isPoweredNumber=False):
+    result = ""
+    if isinstance(input, str) and len(input)>0:
+        signStr = ""
+        if input[0]=='-':
+            if isPoweredNumber==True:
+                signStr = "trừ "
+            else:
+                signStr = "âm "
+            input = input[1:]
+        elif input[0]=='+':
+            signStr = "dương "
+            input = input[1:]
+        parts = input.split(dot)
+        if len(parts)>1:
+            result = signStr + _uintStr2Str(parts[0]) + " phẩy " + _uintStr2Str(parts[1], True)
+        else:
+            result = signStr + _uintStr2Str(parts[0])
+    return result
