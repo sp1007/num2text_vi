@@ -7,11 +7,7 @@ def uintStr2Str(input:str, isSingle=False):
     # định nghĩa kết quả trả về
     result = ""
     # bắt đầu xử lý từng kí tự trong chuỗi
-    if isinstance(input, str):
-        # độ dài chuỗi đầu vào
-        inputLength = len(input)
-        # đếm kí tự
-        idx = 0;
+    if isinstance(input, str) and len(input)>0:
         # nếu chỉ là lấy các chữ số thông thường
         if isSingle==True:
             for c in input:
@@ -22,6 +18,16 @@ def uintStr2Str(input:str, isSingle=False):
                     break
         # không thì thực hiện chuyển số sang chữ
         else:
+            # strip leading zero
+            if (len(input)>1):
+                input = input.lstrip('0')
+            # kiểm tra độ dài input sau khi loại trừ số 0 ở đầu chuỗi
+            if input is None or len(input)==0:
+                return "không"
+            # độ dài chuỗi đầu vào
+            inputLength = len(input)
+            # đếm kí tự
+            idx = 0;
             for c in input:
                 if (c in _LETTERS):
                     # xác định hàng đơn vị
@@ -36,7 +42,7 @@ def uintStr2Str(input:str, isSingle=False):
                         unit = None
                         if c=='0':
                             if idx>0:
-                                num = None;
+                                num = None
                         elif c == '1':
                             if idx>0 and input[idx-1] != "1" and input[idx-1] != '0':
                                 num = "mốt"
