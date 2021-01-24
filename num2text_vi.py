@@ -73,18 +73,15 @@ def uintStr2Str(input:str, isSingle=False):
                                 unit = None
                         elif unitIdx==2 or unitIdx==5 or unitIdx==8:
                             # sửa đơn vị nghìn/triệu/tỷ tỷ
-                            if bilCount>0:
-                                if unitIdx==8:
-                                    for i in range(0, bilCount -1):
-                                        unit += " tỷ"
-                                else:
-                                    for i in range(0, bilCount):
-                                        unit += " tỷ"
+                            if bilCount>0 and unitIdx==8 and (idx<2 or input[idx-1]!='0' or input[idx-2]!='0'):
+                                for i in range(0, bilCount -1):
+                                    unit += " tỷ"
                             if idx>0:
                                 if c=='0':
                                     num = None
-                                    if idx>1 and input[idx-1]=='0' and input[idx-2]=='0':
-                                        unit = None
+                                    if unitIdx != 8:
+                                        if idx>1 and input[idx-1]=='0' and input[idx-2]=='0':
+                                            unit = None
                                 elif c=='1':
                                     if input[idx-1]!='0' and input[idx-1]!='1':
                                         num = "mốt"
