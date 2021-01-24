@@ -1,7 +1,7 @@
 # định nghĩa các yếu tố cấn thiết
 _UNITS = [ "mươi", "trăm", "nghìn", "mươi", "trăm", "triệu", "mươi", "trăm", "tỷ" ]
 _LETTERS = {"0":"không", "1":"một", "2":"hai", "3":"ba", "4":"bốn", "5":"năm", "6":"sáu", "7":"bảy", "8":"tám", "9":"chín"}
-
+_FILTER = ['0','1','2','3','4','5','6','7','8','9','+','-','e',',','.']
 
 def uintStr2Str(input:str, isSingle=False):
     # định nghĩa kết quả trả về
@@ -30,6 +30,8 @@ def uintStr2Str(input:str, isSingle=False):
             idx = 0;
             for c in input:
                 if (c in _LETTERS):
+                    #
+                    bilCount = (inputLength - 1 - idx) // 9
                     # xác định hàng đơn vị
                     unitIdx = (inputLength - 2 - idx) % len(_UNITS)
                     if unitIdx < 0: 
@@ -47,7 +49,7 @@ def uintStr2Str(input:str, isSingle=False):
                             if idx>0 and input[idx-1] != "1" and input[idx-1] != '0':
                                 num = "mốt"
                         elif c=='4':
-                            if idx>0 and input[idx-1]!='1' and input[idx-1]!='0' and input[idx-1]!='2' and input[idx-1]!='4':
+                            if idx>0 and input[idx-1]!='1' and input[idx-1]!='0': # and input[idx-1]!='2' and input[idx-1]!='4':
                                 num = "tư"
                         elif c=='5':
                             if idx>0 and input[idx-1]!='0':
@@ -70,21 +72,30 @@ def uintStr2Str(input:str, isSingle=False):
                                 num = None
                                 unit = None
                         elif unitIdx==2 or unitIdx==5 or unitIdx==8:
+                            # sửa đơn vị nghìn/triệu/tỷ tỷ
+                            if bilCount>0:
+                                if unitIdx==8:
+                                    for i in range(0, bilCount -1):
+                                        unit += " tỷ"
+                                else:
+                                    for i in range(0, bilCount):
+                                        unit += " tỷ"
                             if idx>0:
                                 if c=='0':
                                     num = None
-                                    if unitIdx==2 or unitIdx==5:
-                                        if idx>1 and input[idx-1]=='0' and input[idx-2]=='0':
-                                            unit = None
+                                    if idx>1 and input[idx-1]=='0' and input[idx-2]=='0':
+                                        unit = None
                                 elif c=='1':
                                     if input[idx-1]!='0' and input[idx-1]!='1':
                                         num = "mốt"
                                 elif c=='4':
-                                    if input[idx-1]!='0' and input[idx-1]!='1' and input[idx -1]!='2' and input[idx -1]!='4':
+                                    if input[idx-1]!='0' and input[idx-1]!='1': #  and input[idx -1]!='2' and input[idx -1]!='4':
                                         num = "tư"
                                 elif c=='5':
                                     if input[idx-1]!='0':
                                         num = "lăm"
+                            if unit is not None:
+                                pass
                     # thêm số vào kết quả
                     if num is not None:
                         result += " " + num
@@ -129,7 +140,32 @@ def doubleStr2Str(input:str, dot=","):
     else:
         return floatStr2Str(parts[0], dot)
 
+# xác nhận / điều chỉnh chuỗi số theo định dạng chuẩn
+def numberStr2Str(input:str, dot=","): 
 
-def numberStr2Str(input:str, dot=","):
-    # TODO: xác nhận / điều chỉnh chuỗi số theo định dạng chuẩn
+    # def countCommaDot(source: str):
+    #     commas = []
+    #     dots = []
+    #     c = 0
+    #     for i in newInput:
+    #         if i == '.':
+    #             dots.append(c)
+    #         elif i == ',':
+    #             commas.append(i)
+    #         c += 1
+    #     return {'commas':commas, 'dots':dots}
+    # # first, do filter
+    # input = input.lower()
+    # newInput = ''
+    # for i in input:
+    #     if i in _FILTER
+    #         newInput += i
+    # # cắt chuỗi bằng kí hiệu e (10 mũ)
+    # parts = newInput.split('e')
+    # # chỉ hợp lệ nếu
+    # if len(parts) < 3:
+    #     realDot = dot
+    #     for p in parts:
+    #         count = countCommaDot(p)
+        
     return ""
