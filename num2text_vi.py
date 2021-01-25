@@ -1,7 +1,15 @@
+import re
+
+
 # định nghĩa các yếu tố cấn thiết
 _UNITS = [ "mươi", "trăm", "nghìn", "mươi", "trăm", "triệu", "mươi", "trăm", "tỷ" ]
 _LETTERS = {"0":"không", "1":"một", "2":"hai", "3":"ba", "4":"bốn", "5":"năm", "6":"sáu", "7":"bảy", "8":"tám", "9":"chín"}
-_FILTER = ['0','1','2','3','4','5','6','7','8','9','+','-','e',',','.']
+
+_full_date_re = re.compile(r'(\d{1,2})/(\d{1,2})/(\d{1,4})')
+_short_date_re = re.compile(r'(\d{1,2})/(\d{1,2})')
+_full_time_re = re.compile(r'(\d+):(\d{1,2}):(\d{1,2})')
+_short_time1_re = re.compile(r'(\d+):(\d{1,2})')
+_short_time2_re = re.compile(r'(\d+)h(\d{1,2})')
 
 def uintStr2Str(input:str, isSingle=False):
     # định nghĩa kết quả trả về
@@ -137,32 +145,42 @@ def doubleStr2Str(input:str, dot=","):
     else:
         return floatStr2Str(parts[0], dot)
 
-# xác nhận / điều chỉnh chuỗi số theo định dạng chuẩn
-def numberStr2Str(input:str, dot=","): 
 
-    # def countCommaDot(source: str):
-    #     commas = []
-    #     dots = []
-    #     c = 0
-    #     for i in newInput:
-    #         if i == '.':
-    #             dots.append(c)
-    #         elif i == ',':
-    #             commas.append(i)
-    #         c += 1
-    #     return {'commas':commas, 'dots':dots}
-    # # first, do filter
-    # input = input.lower()
-    # newInput = ''
-    # for i in input:
-    #     if i in _FILTER
-    #         newInput += i
-    # # cắt chuỗi bằng kí hiệu e (10 mũ)
-    # parts = newInput.split('e')
-    # # chỉ hợp lệ nếu
-    # if len(parts) < 3:
-    #     realDot = dot
-    #     for p in parts:
-    #         count = countCommaDot(p)
-        
-    return ""
+# replace 00/00/0000
+def _replace_full_date(m):
+    return "ngày " + doubleStr2Str(m.group(1)) + " tháng " + doubleStr2Str(m.group(2)) + " năm " + doubleStr2Str(m.group(3))
+
+
+# replace 00/00/0000
+def _replace_short_date(m):
+    return "ngày " + doubleStr2Str(m.group(1)) + " tháng " + doubleStr2Str(m.group(2))   
+
+
+# replace 000:00:00
+def _replace_full_time(m):
+    return doubleStr2Str(m.group(1)) + " giờ " + doubleStr2Str(m.group(2)) + " phút " + doubleStr2Str(m.group(3)) + " giây"
+
+
+# replace 000:00
+def _replace_short_time_1(m):
+    return doubleStr2Str(m.group(1)) + " giờ " + doubleStr2Str(m.group(2)) + " phút"
+
+
+# replace 000h00
+def _replace_short_time_2(m):
+    return doubleStr2Str(m.group(1)) + " giờ " + doubleStr2Str(m.group(2)) + " phút"       
+
+
+def normalize_numbers(text:str):
+    # lower
+    text = text.lower()
+    # full date
+    text = re.sub(_full_date_re, _replace_full_date, text)
+    text = re.sub(_short_date_re, _replace_short_date, text)
+    # full time
+    text = re.sub(_full_time_re, _replace_full_time, text)
+    # short time
+    text = re.sub(_short_time1_re, _replace_short_time_1, text)
+    text = re.sub(_short_time2_re, _replace_short_time_2, text)
+    # return result
+    return text
