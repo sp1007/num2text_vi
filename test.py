@@ -7,6 +7,8 @@ test_numbers = ["123456789", "100", "101", "104", "105", "15", "115", "2000", "3
 #     t = n + ": " + num2text_vi.doubleStr2Str(n, ".") + "\n"
 #     sys.stdout.buffer.write(t.encode('utf8'))  
 
-test_str = 'tại thời điểm 122:14:15 12/12/2020, chúng tôi đã tới 06:30, 07H44 05/01'
-t = num2text_vi.normalize_numbers(test_str)
+test_str = 'tại thời điểm 122:14:15,123 12/12/2020, chúng tôi đã tới 06:30, 07H44 05/01 22:14:15'
+test_Str2 = " chuoi so: 0,1d 1vnd, 123.123,12lux, 234.234,12km, 345.345.3456,12345678m, 113kg, 114g, 1511,12k, 123b, 2kb, 5mb, 6gb, 124tb, -19°c, +90°k, 545dm, 23cm, -534mm, 502mg, 250va, 1200W, 120km/h, 10m/s, 33,22kg/m3, 77,99m3/s, 45°80′323″ 60kΩ 21ºC 18° 19° Gió Đông Nam đến Đông cấp 2-3, 14 – 19 độ, 25-26/1, Dự báo thời tiết đêm nay và ngày mai (25-26/1), Nhiệt độ cao nhất: 30-33 độ."
+test_Str3 = "I II III IV V VI VII VIII IX X XI XII XIII XIV XV XVI XVII XVII XIX XX XXI XXII XXIII XXIV XXV XXVI"
+t = num2text_vi.normalize_numbers(test_str + "\n" + test_Str2)
 sys.stdout.buffer.write(t.encode('utf8'))
