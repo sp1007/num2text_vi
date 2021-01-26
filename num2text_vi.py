@@ -15,9 +15,7 @@ _short_date_re = re.compile(r'(\d{1,2})/(\d{1,2})')
 _full_time_re = re.compile(r'(\d+):(\d{1,2}):(\d+(?:,\d+)?)')
 _short_time1_re = re.compile(r'(\d+):(\d{1,2})')
 _short_time2_re = re.compile(r'(\d+)h(\d{1,2})')
-_double_number_re = re.compile(r'(-?\+?\d+(?:,\d+)?e\d+(?:,\d+)?)')
-_number_re = re.compile(r'(-?\+?\d+(?:,\d+)?)')
-_number_with_unit_re = re.compile(r'(-?\+?\d+(?:,\d+)?)(kg/m3|rad/s|km/h|l/km|m3/s|w/m2|m/s|vnd|rad|mol|km|kg|kb|mb|gb|tb|°c|ºc|°k|ºk|mg|mm|cm|dm|ma|hz|mw|kw|kj|tj|kv|lm|pa|va|m2|m3|kω|mω|ev|d|m|g|k|b|s|a|w|j|v|f|n|l|h|ω|t|°|º|%)')
+_general_number_re = re.compile(r'(-?\+?\d+(?:,\d+)?e?\d*(?:,\d+)?)(kg/m3|rad/s|km/h|l/km|m3/s|w/m2|m/s|vnd|rad|mol|km|kg|kb|mb|gb|tb|°c|ºc|°k|ºk|mg|mm|cm|dm|ma|hz|mw|kw|kj|tj|kv|lm|pa|va|m2|m3|kω|mω|ev|d|m|g|k|b|s|a|w|j|v|f|n|l|h|ω|t|°|º|%)?')
 _roman_re = re.compile(r'\b(?=[MDCLXVI]+\b)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b') 
 _coner_re = re.compile(r'(\d+)°(\d+)′(\d+(?:,\d+)?)″')
 _number_range_re = re.compile(r'(\d+(?:,\d+)?)\s*[-–-]\s*(\d+(?:,\d+)?)')
@@ -187,121 +185,6 @@ def _replace_short_time_2(m):
     return " " + doubleStr2Str(m.group(1)) + " giờ " + doubleStr2Str(m.group(2)) + " phút "       
 
 
-def _replace_unit(m):
-    # print('UNIT: ' + str(len(m.groups())) + " : " + m.group(2))
-    orgUnit = m.group(2)
-    unit = "" # vnd|d|m|kg|g|k|b|kb|mb|gb|tb|°c|°k
-    if orgUnit == 'vnd' or orgUnit == 'd':
-        unit = 'đồng'
-    elif orgUnit == 'km':
-        unit = 'kilô mét'
-    elif orgUnit == 'm':
-        unit = 'mét'
-    elif orgUnit == 'dm':
-        unit = 'đềxi mét'
-    elif orgUnit == 'cm':
-        unit = 'xenti mét'
-    elif orgUnit == 'mm':
-        unit = 'mili mét'
-    elif orgUnit == 'kg':
-        unit = 'kilô gram'
-    elif orgUnit == 'g':
-        unit = 'gram'
-    elif orgUnit == 'mg':
-        unit = 'mili gram'
-    elif orgUnit == 'k':
-        unit = 'nghìn'
-    elif orgUnit == 'b':
-        unit = 'bai'
-    elif orgUnit == 'kb':
-        unit = 'kilô bai'
-    elif orgUnit == 'mb':
-        unit = 'mêga bai'
-    elif orgUnit == 'gb':
-        unit = 'giga bai'
-    elif orgUnit == 'tb':
-        unit = 'tera bai'
-    elif orgUnit == '°c' or orgUnit == 'ºc':
-        unit = 'độ xê'
-    elif orgUnit == '°k' or orgUnit == 'ºk':
-        unit = 'độ kenvin'
-    elif orgUnit == 's':
-        unit = 'giây'
-    elif orgUnit == 'a':
-        unit = 'ampe'
-    elif orgUnit == 'ma':
-        unit = 'mili ampe'
-    elif orgUnit == 'hz':
-        unit = 'héc'
-    elif orgUnit == 'w':
-        unit = 'oát'
-    elif orgUnit == 'kw':
-        unit = 'kilô oát'
-    elif orgUnit == 'mw':
-        unit = 'mêga oát'
-    elif orgUnit == 'j':
-        unit = 'giun'
-    elif orgUnit == 'kj':
-        unit = 'kilô giun'
-    elif orgUnit == 'tj':
-        unit = 'tera giun'
-    elif orgUnit == 'v':
-        unit = 'vôn'
-    elif orgUnit == 'kv':
-        unit = 'kilô vôn'
-    elif orgUnit == 'lm':
-        unit = 'lumen'
-    elif orgUnit == 'pa':
-        unit = 'pátcan'
-    elif orgUnit == 'rad':
-        unit = 'rađian'
-    elif orgUnit == 'va':
-        unit = 'vôn ampe'
-    elif orgUnit == 'km/h':
-        unit = 'kilô mét trên giờ'
-    elif orgUnit == 'm/s':
-        unit = 'mét trên giây'
-    elif orgUnit == 'f':
-        unit = 'phara'
-    elif orgUnit == 'n':
-        unit = 'niutơn'
-    elif orgUnit == 'm2':
-        unit = 'mét vuông'
-    elif orgUnit == 'm3':
-        unit = 'mét khối'
-    elif orgUnit == 'l':
-        unit = 'lít'
-    elif orgUnit == 'rad/s':
-        unit = 'rađian trên giây'
-    elif orgUnit == 'l/km':
-        unit = 'lít trên kilômét'
-    elif orgUnit == 'kg/m3':
-        unit = 'kilôgram trên mét khối'
-    elif orgUnit == 'm3/s':
-        unit = 'mét khối trên giây'
-    elif orgUnit == 'h':
-        unit = 'henri'
-    elif orgUnit == 'w/m2':
-        unit = 'oát trên mét vuông'
-    elif orgUnit == 'mol':
-        unit = 'mon'
-    elif orgUnit == 'ω':
-        unit = 'ôm'
-    elif orgUnit == 'kω':
-        unit = 'kilô ôm'
-    elif orgUnit == 'mω':
-        unit = 'mêga ôm'
-    elif orgUnit == 't':
-        unit = 'tấn'
-    elif orgUnit == '°' or orgUnit=='º':
-        unit = 'độ'
-    elif orgUnit == 'ev':
-        unit = 'êlêctrôn vôn'
-    elif orgUnit == '%':
-        unit = 'phần trăm'
-    return " " + doubleStr2Str(m.group(1)) + " " + unit + " "
-
-
 def _replace_number_range(m):
     return " từ " + m.group(1) + " đến " + m.group(2)
 
@@ -311,7 +194,121 @@ def _replace_coner(m):
 
 
 def _replace_number(m):
-    return " " + doubleStr2Str(m.group(1)) + " "         
+    # print(str(len(m.groups())) + ": " + str(m.group(2)))
+    if (len(m.groups())>1 and m.group(2) is not None):
+        orgUnit = m.group(2)
+        unit = "" # vnd|d|m|kg|g|k|b|kb|mb|gb|tb|°c|°k
+        if orgUnit == 'vnd' or orgUnit == 'd':
+            unit = 'đồng'
+        elif orgUnit == 'km':
+            unit = 'kilô mét'
+        elif orgUnit == 'm':
+            unit = 'mét'
+        elif orgUnit == 'dm':
+            unit = 'đềxi mét'
+        elif orgUnit == 'cm':
+            unit = 'xenti mét'
+        elif orgUnit == 'mm':
+            unit = 'mili mét'
+        elif orgUnit == 'kg':
+            unit = 'kilô gram'
+        elif orgUnit == 'g':
+            unit = 'gram'
+        elif orgUnit == 'mg':
+            unit = 'mili gram'
+        elif orgUnit == 'k':
+            unit = 'nghìn'
+        elif orgUnit == 'b':
+            unit = 'bai'
+        elif orgUnit == 'kb':
+            unit = 'kilô bai'
+        elif orgUnit == 'mb':
+            unit = 'mêga bai'
+        elif orgUnit == 'gb':
+            unit = 'giga bai'
+        elif orgUnit == 'tb':
+            unit = 'tera bai'
+        elif orgUnit == '°c' or orgUnit == 'ºc':
+            unit = 'độ xê'
+        elif orgUnit == '°k' or orgUnit == 'ºk':
+            unit = 'độ kenvin'
+        elif orgUnit == 's':
+            unit = 'giây'
+        elif orgUnit == 'a':
+            unit = 'ampe'
+        elif orgUnit == 'ma':
+            unit = 'mili ampe'
+        elif orgUnit == 'hz':
+            unit = 'héc'
+        elif orgUnit == 'w':
+            unit = 'oát'
+        elif orgUnit == 'kw':
+            unit = 'kilô oát'
+        elif orgUnit == 'mw':
+            unit = 'mêga oát'
+        elif orgUnit == 'j':
+            unit = 'giun'
+        elif orgUnit == 'kj':
+            unit = 'kilô giun'
+        elif orgUnit == 'tj':
+            unit = 'tera giun'
+        elif orgUnit == 'v':
+            unit = 'vôn'
+        elif orgUnit == 'kv':
+            unit = 'kilô vôn'
+        elif orgUnit == 'lm':
+            unit = 'lumen'
+        elif orgUnit == 'pa':
+            unit = 'pátcan'
+        elif orgUnit == 'rad':
+            unit = 'rađian'
+        elif orgUnit == 'va':
+            unit = 'vôn ampe'
+        elif orgUnit == 'km/h':
+            unit = 'kilô mét trên giờ'
+        elif orgUnit == 'm/s':
+            unit = 'mét trên giây'
+        elif orgUnit == 'f':
+            unit = 'phara'
+        elif orgUnit == 'n':
+            unit = 'niutơn'
+        elif orgUnit == 'm2':
+            unit = 'mét vuông'
+        elif orgUnit == 'm3':
+            unit = 'mét khối'
+        elif orgUnit == 'l':
+            unit = 'lít'
+        elif orgUnit == 'rad/s':
+            unit = 'rađian trên giây'
+        elif orgUnit == 'l/km':
+            unit = 'lít trên kilômét'
+        elif orgUnit == 'kg/m3':
+            unit = 'kilôgram trên mét khối'
+        elif orgUnit == 'm3/s':
+            unit = 'mét khối trên giây'
+        elif orgUnit == 'h':
+            unit = 'henri'
+        elif orgUnit == 'w/m2':
+            unit = 'oát trên mét vuông'
+        elif orgUnit == 'mol':
+            unit = 'mon'
+        elif orgUnit == 'ω':
+            unit = 'ôm'
+        elif orgUnit == 'kω':
+            unit = 'kilô ôm'
+        elif orgUnit == 'mω':
+            unit = 'mêga ôm'
+        elif orgUnit == 't':
+            unit = 'tấn'
+        elif orgUnit == '°' or orgUnit=='º':
+            unit = 'độ'
+        elif orgUnit == 'ev':
+            unit = 'êlêctrôn vôn'
+        elif orgUnit == '%':
+            unit = 'phần trăm'
+        return " " + doubleStr2Str(m.group(1)) + " " + unit + " "
+    else:
+        return " " + doubleStr2Str(m.group(1)) + " "         
 
 
 def _remove_commas(m):
@@ -350,10 +347,7 @@ def normalize_numbers(text:str):
     text = re.sub(_short_time2_re, _replace_short_time_2, text)
     # coner
     text = re.sub(_coner_re, _replace_coner, text)
-    # currency
-    text = re.sub(_number_with_unit_re, _replace_unit, text)
-    # number
-    text = re.sub(_double_number_re, _replace_number, text)
-    text = re.sub(_number_re, _replace_number, text)
+    # number and unit
+    text = re.sub(_general_number_re, _replace_number, text)
     # return result
     return re.sub(_whitespace_re, ' ', text)
